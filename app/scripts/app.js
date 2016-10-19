@@ -1,18 +1,23 @@
  (function() {
+              /*$stateProvider.state(stateName, stateConfig)*/
      function config($stateProvider, $locationProvider) {
         $locationProvider
         .html5Mode({
             enabled: true,
             requireBase: false
         });
-        $stateProvider
-            .state('landing', {
+         $stateProvider
+            .state('landing' /* state name part*/, {
                 url: '/',
-                templateUrl: '/templates/landing.html'
+                templateUrl: '/templates/landing.html' /*state config part*/
             })
             .state('album', {
             url: '/album',
             templateUrl: '/templates/album.html'
+         })
+         .state('collection', {
+             url: '/collection',
+             templateUrl: '/collection/album.html'
          });
      }
  
