@@ -38,8 +38,21 @@
      };
          return Fixtures;
      }
+     
+     var numberOfAlbums;
+     
+     function getCollection(numberOfAlbums) {
+         return {
+            returnArray: function(numberOfAlbums) {
+                for (i = 0; i < numberOfAlbums; i++) {
+                arrayPicasso.push(albumPicasso)
+                }
+            }
+       
+        }
+     };
  
      angular
          .module('blocJams')
-         .factory('Fixtures', Fixtures);
+         .factory('Fixtures', [Fixtures, "numberOfAlbums", getCollection(numberOfAlbums)]);
  })();
