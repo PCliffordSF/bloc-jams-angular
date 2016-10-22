@@ -1,7 +1,10 @@
+//  This is a Fixtures factory service
+//  This creates and returns an object wich can be injected into controllers.
+ 
  (function() {
      function Fixtures() {
          
-     var Fixtures = {};
+     var Fixtures = {}; // this is the object which is returned.
      
      var albumPicasso = {
         title: 'The Colors',
@@ -33,26 +36,23 @@
             ]
      };
      
-     Fixtures.getAlbum = function() {
+     Fixtures.getAlbum = function() { // add this function to the object. 
          return albumPicasso;
      };
-         return Fixtures;
-     }
      
-     var numberOfAlbums;
-     
-     function getCollection(numberOfAlbums) {
-         return {
-            returnArray: function(numberOfAlbums) {
-                for (i = 0; i < numberOfAlbums; i++) {
-                arrayPicasso.push(albumPicasso)
-                }
-            }
-       
-        }
+     Fixtures.getCollection = function(numberOfAlbums) { //adds another function to fixtures
+         var albumArray = [];
+         for (var i = 0; i < numberOfAlbums; i++) {
+             albumArray.push(albumPicasso);
+         }
+         return albumArray;
+         
      };
+         return Fixtures; // Returns the object with the function
+     }
+
  
      angular
          .module('blocJams')
-         .factory('Fixtures', [Fixtures, "numberOfAlbums", getCollection(numberOfAlbums)]);
+         .factory('Fixtures', Fixtures); // registers the Fixtures contructor function with angular
  })();

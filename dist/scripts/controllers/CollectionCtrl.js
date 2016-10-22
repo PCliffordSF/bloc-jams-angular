@@ -1,5 +1,5 @@
  (function() {
-     function CollectionCtrl(fixtures) {
+     function CollectionCtrl(Fixtures) {
          this.albums = Fixtures.getCollection(12);
      }
  
