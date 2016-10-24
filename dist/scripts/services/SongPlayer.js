@@ -30,12 +30,23 @@
          
             currentSong = song;
          };
+         
+            /**
+            * @function playSong
+            * @desc Pays currently song and sets playing boolean to true;
+            */
+         
+         var playSong = function(){
+             currentBuzzObject.play();
+             song.playing = true;
+         };
           
          SongPlayer.play = function(song) {
             if (currentSong !== song) {
+                console.log(song.playing);
                 setSong(song);
-                currentBuzzObject.play();
-                song.playing = true; // this is used in ng-show in albub.html
+                playSong();
+                console.log(song.playing);
             };
         };
         SongPlayer.pause = function(song) {
