@@ -49,6 +49,7 @@
                 console.log(song.playing);
             };
         };
+        
         SongPlayer.pause = function(song) {
             currentBuzzObject.pause();
             song.playing = false;
