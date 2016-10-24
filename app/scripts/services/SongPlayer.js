@@ -1,35 +1,52 @@
  (function() {
      function SongPlayer() { // constuctor fucntion
-          var SongPlayer = {};
+        var SongPlayer = {};
           
-            var currentSong = null;
-            var currentBuzzObject = null;
-          
-         SongPlayer.play = function(song) {
-             console.log(song);
-             console.log(currentSong);
-            if (currentSong !== song) {
-                if (currentBuzzObject) {
-                    currentBuzzObject.stop(); // stop current song if new song is played
-                    currentSong.playing = null; // this is used in ng-show in albub.html
-                } else if (currentSong === song) {
-                    if (currentBuzzObject.isPaused()) {
-                    currentBuzzObject.play(); // play current song if current song is paused.
-                }
-             } 
+        var currentSong = null;
+        
+             /**
+             * @desc Buzz object audio file
+             * @type {Object}
+             */
              
-             currentBuzzObject = new buzz.sound(song.audioUrl, {
+        var currentBuzzObject = null;
+        
+             /**
+             * @function setSong
+             * @desc Stops currently playing song and loads new audio file as currentBuzzObject
+             * @param {Object} song
+             */
+          
+        var setSong = function(song) {
+            if (currentBuzzObject) {
+                currentBuzzObject.stop();
+                currentSong.playing = null;
+            }
+         
+            currentBuzzObject = new buzz.sound(song.audioUrl, {
                 formats: ['mp3'],
                 preload: true
             });
          
-                currentSong = song;
+            currentSong = song;
+         };
+          
+         SongPlayer.play = function(song) {
+            if (currentSong !== song) {
+                setSong(song);
                 currentBuzzObject.play();
                 song.playing = true; // this is used in ng-show in albub.html
             };
-        }
+        };
+        SongPlayer.pause = function(song) {
+            currentBuzzObject.pause();
+            song.playing = false;
+        };
         return SongPlayer; // returned objecct to be injected.
-    }
+    };
+    
+
+    
  
      angular
          .module('blocJams')
