@@ -3,6 +3,7 @@
         var SongPlayer = {};
           
         var currentSong = null;
+        var song = null;
         
              /**
              * @desc Buzz object audio file
@@ -36,17 +37,15 @@
             * @desc Pays currently song and sets playing boolean to true;
             */
          
-         var playSong = function(){
+         var playSong = function(song){
              currentBuzzObject.play();
              song.playing = true;
          };
           
          SongPlayer.play = function(song) {
             if (currentSong !== song) {
-                console.log(song.playing);
                 setSong(song);
-                playSong();
-                console.log(song.playing);
+                playSong(song);
             };
         };
         
