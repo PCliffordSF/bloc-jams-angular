@@ -6,6 +6,8 @@
          
      var Fixtures = {}; // this is the object which is returned.
      
+
+     
      var albumPicasso = {
         title: 'The Colors',
         artist: 'Pablo Picasso',

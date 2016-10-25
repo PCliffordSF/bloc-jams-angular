@@ -1,9 +1,6 @@
  (function() {
-     function SongPlayer() { // constuctor fucntion
+     function SongPlayer(Fixtures) { // constuctor fucntion
         var SongPlayer = {};
-          
-        var currentSong = null;
-        var song = null;
         
              /**
              * @desc Buzz object audio file
@@ -11,6 +8,14 @@
              */
              
         var currentBuzzObject = null;
+        
+        
+            /**
+             * @desc currentAlbum object
+             * @type {Object}
+             */
+        
+        var currentAlbum = Fixtures.getAlbum(); //not we have currentAlbum in Fixtures
         
              /**
              * @function setSong
@@ -21,7 +26,7 @@
         var setSong = function(song) {
             if (currentBuzzObject) {
                 currentBuzzObject.stop();
-                currentSong.playing = null;
+                SongPlayer.currentSong.playing = null;
             }
          
             currentBuzzObject = new buzz.sound(song.audioUrl, {
@@ -29,30 +34,76 @@
                 preload: true
             });
          
-            currentSong = song;
+            SongPlayer.currentSong = song;
          };
          
             /**
             * @function playSong
-            * @desc Pays currently song and sets playing boolean to true;
+            * @desc Plays currently song and sets playing boolean to true;
+            * @param {Object} song
             */
          
          var playSong = function(song){
              currentBuzzObject.play();
              song.playing = true;
          };
+         
+         // this is where the public variables begin as we attach them to the object to be injected.
+         
+            /**
+            * @function getSongIndex
+            * @desc Gets the index of the song wich is playing;
+            * @param {Object} song
+            */
+         
+          var getSongIndex = function(song) {
+            return currentAlbum.songs.indexOf(song);
+            };
+            
+            /**
+            * @desc Active song object from list of songs
+            * @type {Object}
+            */
+         
+         SongPlayer.currentSong = null;
           
          SongPlayer.play = function(song) {
-            if (currentSong !== song) {
+            song = song || SongPlayer.currentSong;
+            if (SongPlayer.currentSong !== song) {
                 setSong(song);
                 playSong(song);
             };
+            // console.log(SongPlayer.currentSong.playing);
         };
         
         SongPlayer.pause = function(song) {
+            
+            song = song || SongPlayer.currentSong;
             currentBuzzObject.pause();
             song.playing = false;
+        }; 
+        
+            /**
+            * @function previous
+            * @desc Gets the index of the song before the current song which is playing. stops at 0.
+            */
+        
+        SongPlayer.previous = function() {
+            var currentSongIndex = getSongIndex(SongPlayer.currentSong);
+            currentSongIndex--;
+            
+            if (currentSongIndex < 0) {
+                currentBuzzObject.stop();
+                SongPlayer.currentSong.playing = null;
+            } else {
+                var song = currentAlbum.songs[currentSongIndex];
+                setSong(song);
+                playSong(song);
+            }
         };
+        
+        
+        
         return SongPlayer; // returned objecct to be injected.
     };
     
