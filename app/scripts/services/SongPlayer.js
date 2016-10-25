@@ -25,8 +25,7 @@
           
         var setSong = function(song) {
             if (currentBuzzObject) {
-                currentBuzzObject.stop();
-                SongPlayer.currentSong.playing = null;
+                stopSong(SongPlayer.currentSong);
             }
          
             currentBuzzObject = new buzz.sound(song.audioUrl, {
@@ -61,6 +60,17 @@
             };
             
             /**
+            * @function stopSong
+            * @desc Stops the currently playing song, and sets song.playing = null;
+            * @param {Object} song
+            */ 
+         
+          var stopSong = function(song) {
+                currentBuzzObject.stop();
+                song.playing = null;
+            };
+            
+            /*
             * @desc Active song object from list of songs
             * @type {Object}
             */
@@ -85,7 +95,7 @@
         
             /**
             * @function previous
-            * @desc Gets the index of the song before the current song which is playing. stops at 0.
+            * @desc Gets the index of the song before the current song which is playing and plays song. stops at beginning.
             */
         
         SongPlayer.previous = function() {
@@ -93,9 +103,28 @@
             currentSongIndex--;
             
             if (currentSongIndex < 0) {
-                currentBuzzObject.stop();
-                SongPlayer.currentSong.playing = null;
+                stopSong(song);
             } else {
+                var song = currentAlbum.songs[currentSongIndex];
+                setSong(song);
+                playSong(song);
+            }
+        };
+        
+            /**
+            * @function next
+            * @desc Gets the index of the song after the current song which is playing and plays song. stops at end.
+            */
+        
+            SongPlayer.next = function() {
+                var currentSongIndex = getSongIndex(SongPlayer.currentSong);
+                currentSongIndex++;
+            
+            if (currentSongIndex == currentAlbum.songs.length) {
+                console.log("in here")
+                stopSong(SongPlayer.currentSong);
+            } else {
+                console.log("outhere")
                 var song = currentAlbum.songs[currentSongIndex];
                 setSong(song);
                 playSong(song);
