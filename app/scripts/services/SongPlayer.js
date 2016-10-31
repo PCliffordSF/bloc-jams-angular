@@ -1,5 +1,5 @@
  (function() {
-     function SongPlayer(Fixtures) { // constuctor fucntion
+     function SongPlayer(Fixtures, $rootScope) { // constuctor fucntion
         var SongPlayer = {};
         
              /**
@@ -32,6 +32,12 @@
                 formats: ['mp3'],
                 preload: true
             });
+            
+            currentBuzzObject.bind('timeupdate', function() {
+                 $rootScope.$apply(function() {
+                    SongPlayer.currentTime = currentBuzzObject.getTime();
+            });
+     });
          
             SongPlayer.currentSong = song;
          };
@@ -76,6 +82,12 @@
             */
          
          SongPlayer.currentSong = null;
+         
+          /**
+         * @desc Current playback time (in seconds) of currently playing song
+         * @type {Number}
+         */
+         SongPlayer.currentTime = null;
           
          SongPlayer.play = function(song) {
             song = song || SongPlayer.currentSong;
@@ -131,6 +143,17 @@
             }
         };
         
+             /**
+             * @function setCurrentTime
+             * @desc Set current time (in seconds) of currently playing song
+             * @param {Number} time
+             */
+             SongPlayer.setCurrentTime = function(time) {
+                 if (currentBuzzObject) {
+                     currentBuzzObject.setTime(time);
+                 }
+             };
+        
         
         
         return SongPlayer; // returned objecct to be injected.
@@ -141,5 +164,5 @@
  
      angular
          .module('blocJams')
-         .factory('SongPlayer', SongPlayer); //registers SongPlayer with 'blocJams'
+         .factory('SongPlayer', ['$rootScope', 'Fixtures', SongPlayer]);
  })();
