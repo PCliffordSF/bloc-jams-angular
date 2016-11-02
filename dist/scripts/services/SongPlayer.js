@@ -7,7 +7,7 @@
              * @type {Object}
              */
              
-        var currentBuzzObject = null;
+           var currentBuzzObject = null;
         
         
             /**
@@ -95,6 +95,8 @@
          */
          
          SongPlayer.volume = null;
+         
+         SongPlayer.currentBuzzObject = currentBuzzObject;
           
          SongPlayer.play = function(song) {
             song = song || SongPlayer.currentSong;

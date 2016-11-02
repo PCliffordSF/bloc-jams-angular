@@ -1,29 +1,15 @@
  (function() {
-     console.log("timecode.js connected");
-     function timecode() {
-         return function(seconds) {
-             var seconds = Number.parseFloat(seconds);
-             
-             if (Number.isNaN(seconds)) {
-                 return '-:--';
-              }
-             var wholeSeconds = Math.floor(seconds);
-             var minutes = Math.floor(wholeSeconds / 60);
-             var remainingSeconds = wholeSeconds % 60;
- 
-             var output = minutes + ':';
- 
-             if (remainingSeconds < 10) {
-                 output += '0';   
-             }
- 
-             output += remainingSeconds;
- 
-             return output;
-         };
+     function timecode(SongPlayer) {
+       var currentBuzzObject = SongPlayer.currentBuzzObject;
+        if (currentBuzzObject) {
+         return buzz.toTimer(currentBuzzObject.getTime());
+        } else {
+         return '-:--'
+        }
+        
      }
  
      angular
          .module('blocJams')
-         .filter('timecode', timecode);
+         .filter('timecode', ['SongPlayer', timecode]);
  })();
