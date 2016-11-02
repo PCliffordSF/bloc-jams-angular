@@ -102,7 +102,6 @@
                 setSong(song);
                 playSong(song);
             };
-            // console.log(SongPlayer.currentSong.playing);
         };
         
         SongPlayer.pause = function(song) {
@@ -122,7 +121,7 @@
             currentSongIndex--;
             
             if (currentSongIndex < 0) {
-                stopSong(song);
+                stopSong(SongPlayer.currentSong);
             } else {
                 var song = currentAlbum.songs[currentSongIndex];
                 setSong(song);
@@ -140,10 +139,8 @@
                 currentSongIndex++;
             
             if (currentSongIndex == currentAlbum.songs.length) {
-                console.log("in here")
                 stopSong(SongPlayer.currentSong);
             } else {
-                console.log("outhere")
                 var song = currentAlbum.songs[currentSongIndex];
                 setSong(song);
                 playSong(song);
